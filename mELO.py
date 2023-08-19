@@ -1,5 +1,7 @@
 import numpy as np
-import torch
+
+def sigmoid(x):
+ return 1/(1 + np.exp(-x))
 
 class mELO:
     def __init__(self, n: int, k: int, lr_ratings: float=16, lr_features: float=1, initial_ratings: np.ndarray=None, initial_features: np.ndarray=None):
@@ -41,7 +43,7 @@ class mELO:
         c_i_transpose = np.atleast_2d(self.features[i])
         # and similarly, this one needs to be transposed (to a column vector)
         c_j = np.atleast_2d(self.features[j]).T
-        p_hat_ij = torch.sigmoid(self.ratings[i]-self.ratings[j]+np.matmul(np.matmul(c_i_transpose, self.omega), c_j)[0][0])
+        p_hat_ij = sigmoid(self.ratings[i]-self.ratings[j]+np.matmul(np.matmul(c_i_transpose, self.omega), c_j)[0][0])
         delta = outcome - p_hat_ij
         self.ratings[i] += self.lr_ratings * delta
         self.ratings[j] -= self.lr_ratings * delta
