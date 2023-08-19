@@ -51,6 +51,9 @@ class mELO:
         self.features[j] -= self.lr_features * delta * np.matmul(self.omega, self.features[j])
 
     def get_P(self):
+        """
+        Returns nxn matrix P where P[i,j] is the probability that i beats j
+        """
         p = np.zeros((self.n,self.n))
         for i in range(self.n):
             c_i_transpose = np.atleast_2d(self.features[i])
