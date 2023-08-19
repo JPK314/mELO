@@ -50,3 +50,10 @@ class mELO:
         self.features[i] += self.lr_features * delta * np.matmul(self.omega, self.features[i])
         self.features[j] -= self.lr_features * delta * np.matmul(self.omega, self.features[j])
 
+    def get_P(self):
+        p = np.zeros((self.n,self.n))
+        for i in range(self.n):
+            c_i_transpose = np.atleast_2d(self.features[i])
+            p[i] = sigmoid(self.ratings[i] * np.ones(self.n) - self.ratings + np.matmul(np.matmul(c_i_transpose, self.omega), self.features.T))
+        return p
+
